@@ -1,54 +1,48 @@
-# VCS tools로 소스 가져오기
-echo "===== 소스 코드 다운로드 ====="
-vcs import src < src/scout_isaac.repos
+# ========== Docker 컨테이너 실행 스크립트 생성 ==========
+cat > ${ISAAC_ROS_WS}/run_isaac_container.sh <<'EOF'
+#!/bin/bash
 
-# RealSense 버전 호환성 문제 해결
-echo "===== RealSense 버전 호환성 설정 ====="
-cd src/realsense_ros
-git checkout 4.54.1
-cd ~/scout_isaac_ws
+# Isaac ROS Docker 컨테이너 실행
+cd ${ISAAC_ROS_WS}/src/isaac_ros_common && \
+  ./scripts/run_dev.sh
+EOF
 
-# rosdep으로 모든 의존성 자동 설치
-echo "===== 의존성 설치 ====="
-sudo apt update
-rosdep update
-rosdep install --from-paths src --ignore-src -y --rosdistro humble
+chmod +x ${ISAAC_ROS_WS}/run_isaac_container.sh
 
-# 빌드
-echo "===== 빌드 ====="
-colcon build --symlink-install
-
-# 환경 설정
+# ========== 완료 메시지 ==========
 echo ""
 echo "=============================================="
 echo "✅ Scout Isaac ROS 워크스페이스 설치 완료!"
 echo "=============================================="
 echo ""
-echo "🤖 Hardware Stack:"
-echo "  - Scout Mini (AgileX)"
-echo "  - Jetson Orin NX"
-echo "  - RealSense D435i (RGB-D + IMU)"
-echo "  - XSENS MTi (9-axis IMU)"
+echo "📂 워크스페이스: ${ISAAC_ROS_WS}"
 echo ""
-echo "🚀 Software Stack:"
-echo "  ├─ Perception:"
-echo "  │  ├─ Isaac ROS Visual SLAM (cuVSLAM)"
-echo "  │  └─ Isaac ROS Nvblox (3D reconstruction)"
-echo "  ├─ Localization:"
-echo "  │  └─ robot_localization (EKF fusion)"
-echo "  ├─ Navigation:"
-echo "  │  └─ Navigation2"
-echo "  └─ Control:"
-echo "     └─ scout_ros2 + ugv_sdk"
+echo "🐳 다음 단계:"
 echo ""
-echo "다음 명령어로 워크스페이스를 활성화하세요:"
-echo "  source ~/scout_isaac_ws/install/setup.bash"
+echo "1️⃣ Docker 그룹 권한 적용 (필수, 최초 1회)"
+echo "   newgrp docker"
+echo "   (또는 로그아웃 후 재로그인)"
 echo ""
-echo "로봇 실행:"
-echo "  ros2 launch scout_isaac scout_isaac_bringup.launch.py"
+echo "2️⃣ Isaac ROS Docker 컨테이너 실행"
+echo "   cd \${ISAAC_ROS_WS}/src/isaac_ros_common"
+echo "   ./scripts/run_dev.sh"
 echo ""
-echo "⚠️  참고사항:"
-echo "  - Isaac ROS는 NVIDIA GPU가 필수입니다"
-echo "  - Jetson Orin NX에서 최적 성능을 제공합니다"
-echo "  - Isaac Sim 연동을 위해서는 별도 설정이 필요합니다"
+echo "3️⃣ 컨테이너 내부에서 빌드"
+echo "   cd /workspaces/isaac_ros-dev"
+echo "   rosdep install --from-paths src --ignore-src -y"
+echo "   colcon build --symlink-install"
+echo "   source install/setup.bash"
+echo ""
+echo "4️⃣ 로봇 실행"
+echo "   ros2 launch scout_isaac scout_isaac_bringup.launch.py"
+echo ""
+echo "📝 Isaac ROS 패키지들:"
+echo "   - isaac_ros_visual_slam (cuVSLAM)"
+echo "   - isaac_ros_nvblox (3D reconstruction)"
+echo "   ※ 이 패키지들은 Docker 내에서 빌드됩니다"
+echo ""
+echo "⚠️  중요:"
+echo "   - Isaac ROS는 NVIDIA GPU 필수"
+echo "   - Jetson Orin NX에 최적화됨"
+echo "   - 모든 Isaac ROS 작업은 Docker 컨테이너 내에서 수행"
 echo ""
