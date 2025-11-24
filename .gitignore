@@ -1,0 +1,27 @@
+# Ignore build and install artifacts
+build/
+install/
+log/
+
+# Ignore colcon metadata
+.colcon/
+.colcon_meta/
+.colcon_build/
+
+# Ignore ROS2 and VSCode temp files
+*.pyc
+*.pyo
+*.swp
+*.swo
+.DS_Store
+.vscode/
+.idea/
+
+# Ignore dependencies cloned into src
+src/*
+!src/*.repos
+
+# Ignore workspace-specific files
+*.bak
+*.old
+
