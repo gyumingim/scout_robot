@@ -1,0 +1,48 @@
+repositories:
+  # Scout Mini 제어 및 센서 신호 수신
+  scout_ros2:
+    type: git
+    url: https://github.com/agilexrobotics/scout_ros2.git
+    version: humble
+  
+  # Scout 연결 드라이버
+  ugv_sdk:
+    type: git
+    url: https://github.com/agilexrobotics/ugv_sdk.git
+    version: main
+  
+  # Navigation2 - 경로 생성
+  navigation2:
+    type: git
+    url: https://github.com/ros-navigation/navigation2.git
+    version: humble
+  
+  # 센서 퓨전 (Odom + IMU)
+  robot_localization:
+    type: git
+    url: https://github.com/cra-ros-pkg/robot_localization.git
+    version: humble-devel
+  
+  # RTAB-Map - 지도 생성 핵심
+  rtabmap:
+    type: git
+    url: https://github.com/introlab/rtabmap.git
+    version: humble-devel
+  
+  # RTAB-Map ROS2 래퍼
+  rtabmap_ros:
+    type: git
+    url: https://github.com/introlab/rtabmap_ros.git
+    version: humble-devel
+  
+  # RealSense 카메라 드라이버
+  realsense_ros:
+    type: git
+    url: https://github.com/IntelRealSense/realsense-ros.git
+    version: ros2-development
+  
+  # Xsens IMU 드라이버
+  xsens_mti_driver:
+    type: git
+    url: https://github.com/DEMCON/ros2_xsens_mti_driver.git
+    version: main
